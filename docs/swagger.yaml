@@ -1,0 +1,1443 @@
+definitions:
+  common.PageModel:
+    properties:
+      pageNum:
+        description: 页码
+        type: integer
+      pageSize:
+        description: 分页大小
+        type: integer
+    type: object
+  common.PageResponseModel:
+    properties:
+      data: {}
+      page:
+        $ref: '#/definitions/common.PageModel'
+      total:
+        description: 总记录数
+        type: integer
+    type: object
+  common.ResponseModel:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
+  models.AssetTypeModel:
+    properties:
+      quantity:
+        description: 数量
+        type: integer
+      typeName:
+        description: Name     *string `gorm:"column:name;type:varchar(25)" json:"name"`
+          // 房间名称
+        type: string
+    type: object
+  models.AssetsModel:
+    properties:
+      code:
+        description: 资产编码
+        type: string
+      comment:
+        description: 备注
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
+      id:
+        description: id
+        type: string
+      name:
+        description: 名称
+        type: string
+      orderID:
+        description: 采购编号
+        type: string
+      price:
+        description: 价格
+        type: number
+      producerID:
+        description: 厂商ID
+        type: string
+      productionTime:
+        description: 生产日期
+        type: string
+      serviceLength:
+        description: 服役年限
+        type: integer
+      status:
+        description: 0 在用 1 故障 2 维修 3 报废
+        type: integer
+      typeID:
+        description: 所在房间
+        type: string
+      updateTime:
+        description: 更新时间
+        type: string
+      userID:
+        description: 责任人
+        type: string
+    type: object
+  models.AssetsQueryRequest:
+    properties:
+      code:
+        description: 资产编码
+        type: string
+      comment:
+        description: 备注
+        type: string
+      createTime:
+        description: 创建时间
+        type: string
+      endTime:
+        description: 结束时间
+        type: string
+      id:
+        description: id
+        type: string
+      ids:
+        description: 根据传入ids查询
+        items:
+          type: string
+        type: array
+      name:
+        description: 名称
+        type: string
+      orderID:
+        description: 采购编号
+        type: string
+      pageNum:
+        description: 页码
+        type: integer
+      pageSize:
+        description: 分页大小
+        type: integer
+      price:
+        description: 价格
+        type: number
+      producerID:
+        description: 厂商ID
+        type: string
+      productionTime:
+        description: 生产日期
+        type: string
+      serviceLength:
+        description: 服役年限
+        type: integer
+      status:
+        description: 0 在用 1 故障 2 维修 3 报废
+        type: integer
+      typeID:
+        description: 所在房间
+        type: string
+      updateTime:
+        description: 更新时间
+        type: string
+      userID:
+        description: 责任人
+        type: string
+    type: object
+  models.AssetsVO:
+    properties:
+      code:
+        description: 资产编码
+        type: string
+      comment:
+        description: 备注
+        type: string
+      header:
+        description: 负责人
+        type: string
+      id:
+        description: id
+        type: string
+      name:
+        description: 名称
+        type: string
+      orderID:
+        description: 采购编号
+        type: string
+      price:
+        description: 价格
+        type: number
+      producerName:
+        description: 供应商名字
+        type: string
+      productionTime:
+        description: 生产日期
+        type: string
+      quantity:
+        description: 数量
+        example: "0"
+        type: string
+      retireMentTime:
+        description: 报废退役年限
+        type: string
+      serviceLength:
+        description: 服役年限
+        type: integer
+      status:
+        description: 0 在用 1 故障 2 维修 3 报废
+        type: integer
+      typeName:
+        description: |-
+          RoomName       *string       `gorm:"column:room_name;type:varchar(25)" json:"roomName"`                     // 房间名称
+          Floor          *int64        `gorm:"column:floor;type:int" json:"floor"`                                    // 楼层
+          RoomNum        *string       `gorm:"column:number;type:varchar(4)" json:"room_num"`                         // 房间号
+          Address       *string       `gorm:"column:location;type:varchar(25)" json:"location"`                      // 房间位置
+        type: string
+      updateTime:
+        description: 更新时间
+        type: string
+      userID:
+        description: 责任人
+        type: string
+    type: object
+  models.LoginRequest:
+    properties:
+      account:
+        description: 用户名
+        type: string
+      password:
+        description: 密码
+        type: string
+    type: object
+  models.OrderAssetRequest:
+    properties:
+      applyTime:
+        description: UserID     *string    `gorm:"column:user_id;type:varchar(19)"
+          json:"userID"`                       // 责任人
+        type: string
+      name:
+        type: string
+      orderId:
+        description: 采购订单id
+        type: string
+      orderTime:
+        description: 采购时间
+        type: string
+      producerId:
+        description: 供应商名字
+        type: string
+      quantity:
+        description: 数量
+        example: "0"
+        type: string
+      typeId:
+        description: 类型名称
+        type: string
+    type: object
+  models.OrderQueryRequest:
+    properties:
+      applyUser:
+        description: 申请人名称
+        type: string
+      endTime:
+        description: 申请结束时间
+        type: string
+      pageNum:
+        description: 页码
+        type: integer
+      pageSize:
+        description: 分页大小
+        type: integer
+      startTime:
+        description: 申请起始时间
+        type: string
+      status:
+        description: 采购单状态
+        type: integer
+    type: object
+  models.OrderRequest:
+    properties:
+      assets:
+        description: 采购明细信息
+        items:
+          $ref: '#/definitions/models.OrderAssetRequest'
+        type: array
+      orderName:
+        description: 采购事由
+        type: string
+      user_id:
+        description: 采购申请人
+        type: string
+    type: object
+  models.ProducerQueryRequest:
+    properties:
+      address:
+        description: 厂商位置
+        type: string
+      contact_user:
+        description: 联络人
+        type: string
+      name:
+        description: 名称
+        type: string
+      pageNum:
+        description: 页码
+        type: integer
+      pageSize:
+        description: 分页大小
+        type: integer
+      phoneNumber:
+        description: 手机号
+        type: string
+    type: object
+  models.SwustAssetType:
+    properties:
+      id:
+        description: id
+        type: string
+      name:
+        description: 名称
+        type: string
+    type: object
+  models.SwustProducer:
+    properties:
+      address:
+        description: 联络地址
+        type: string
+      contact_phone:
+        description: 联系电话号码
+        type: string
+      contact_user:
+        description: 联络人
+        type: string
+      id:
+        description: id
+        type: string
+      name:
+        description: 名称
+        type: string
+    type: object
+  models.SwustRoomModel:
+    properties:
+      floor:
+        description: 楼层
+        type: integer
+      header:
+        description: 房间负责人Id
+        type: string
+      id:
+        description: id
+        type: string
+      location:
+        description: 房间位置
+        type: string
+      name:
+        description: 名称
+        type: string
+      room_num:
+        description: 房间号
+        type: string
+    type: object
+  models.SwustSystemRole:
+    properties:
+      id:
+        description: id
+        type: string
+      name:
+        description: 名称
+        type: string
+      parent_id:
+        description: 父节点id
+        type: string
+      resource:
+        description: 权限关联资源
+        type: string
+    type: object
+  models.SystemLogQueryRequest:
+    properties:
+      endTime:
+        description: 结束时间
+        type: string
+      event:
+        description: 事件类型
+        type: integer
+      operateUser:
+        description: 操作人
+        type: string
+      pageNum:
+        description: 页码
+        type: integer
+      pageSize:
+        description: 分页大小
+        type: integer
+      startTime:
+        description: 操作时间
+        type: string
+    type: object
+  models.SystemUserModel:
+    properties:
+      account:
+        description: 用户名
+        type: string
+      avatar:
+        description: Role        *string `gorm:"column:role;type:text" json:"role"`                       //
+          权限
+        type: string
+      id:
+        description: id
+        type: string
+      name:
+        description: 名称
+        type: string
+      password:
+        description: 密码
+        type: string
+      phoneNumber:
+        description: 电话号码
+        type: string
+      salt:
+        description: 盐
+        type: string
+    type: object
+  models.SystemUserQueryRequest:
+    properties:
+      name:
+        description: 名称
+        type: string
+      pageNum:
+        description: 页码
+        type: integer
+      pageSize:
+        description: 分页大小
+        type: integer
+      phoneNumber:
+        description: 电话号码
+        type: string
+    type: object
+  models.TypeQueryRequest:
+    properties:
+      name:
+        description: 类型名称
+        type: string
+      pageNum:
+        description: 页码
+        type: integer
+      pageSize:
+        description: 分页大小
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/assets/add:
+    post:
+      description: 增加资产
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加资产D
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.AssetsModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Asset-资产设备管理雄相关接口
+  /api/assets/delete:
+    post:
+      consumes:
+      - application/json
+      description: 根据资产IDs删除资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除资产IDs
+        in: body
+        name: ids
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Asset-资产设备管理雄相关接口
+  /api/assets/export:
+    post:
+      consumes:
+      - application/json
+      description: 导出资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 需要导出的ids
+        in: body
+        name: ids
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - Asset-资产设备管理雄相关接口
+  /api/assets/getById:
+    get:
+      description: 根据资产ID获取资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 资产ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Asset-资产设备管理雄相关接口
+  /api/assets/import:
+    post:
+      consumes:
+      - application/json
+      description: 导入资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 文件上传
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - Asset-资产设备管理雄相关接口
+  /api/assets/page:
+    post:
+      consumes:
+      - application/json
+      description: 分页查询资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除资产IDs
+        in: body
+        name: req
+        schema:
+          $ref: '#/definitions/models.AssetsQueryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AssetsVO'
+      tags:
+      - Asset-资产设备管理雄相关接口
+  /api/assets/template:
+    get:
+      consumes:
+      - application/json
+      description: 获取导入资产信息模板
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - Asset-资产设备管理雄相关接口
+  /api/assets/type/add:
+    post:
+      description: 增加资产类型
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加资产类型
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SwustAssetType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - AssetType-资产类型管理相关接口
+  /api/assets/type/delete:
+    post:
+      consumes:
+      - application/json
+      description: 根据资产IDs删除资产类型信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除资产IDs
+        in: body
+        name: ids
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - AssetType-资产类型管理相关接口
+  /api/assets/type/getById:
+    get:
+      description: 根据资产类型ID获取供资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 资产ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SwustAssetType'
+      tags:
+      - AssetType-资产类型管理相关接口
+  /api/assets/type/page:
+    post:
+      consumes:
+      - application/json
+      description: 分页查询资产类型信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 筛选条件
+        in: body
+        name: req
+        schema:
+          $ref: '#/definitions/models.TypeQueryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SwustAssetType'
+      tags:
+      - AssetType-资产类型管理相关接口
+  /api/assets/type/update:
+    post:
+      description: 更新资产类型信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加资产类型
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SwustAssetType'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - AssetType-资产类型管理相关接口
+  /api/assets/update:
+    post:
+      description: 更新资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加资产
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.AssetsModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Asset-资产设备管理雄相关接口
+  /api/order/add:
+    post:
+      description: 增加采购信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 采购单信息
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.OrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Order-采购信息管理相关接口
+  /api/order/delete:
+    post:
+      consumes:
+      - application/json
+      description: 根据采购IDs删除采购信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除采购信息IDs
+        in: body
+        name: ids
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Order-采购信息管理相关接口
+  /api/order/getById:
+    get:
+      description: 根据订单ID获取采购信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 订单ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Order-采购信息管理相关接口
+  /api/order/page:
+    post:
+      consumes:
+      - application/json
+      description: 分页查询资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除资产IDs
+        in: body
+        name: req
+        schema:
+          $ref: '#/definitions/models.OrderQueryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.PageResponseModel'
+      tags:
+      - Order-采购信息管理相关接口
+  /api/order/update:
+    post:
+      description: 更新资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待更新采购单信息
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.OrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Order-采购信息管理相关接口
+  /api/producer/add:
+    post:
+      description: 增加供销商
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加厂商ID
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SwustProducer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Producer-供销商管理相关接口
+  /api/producer/delete:
+    post:
+      consumes:
+      - application/json
+      description: 根据供销商IDs删除供销商信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除供销商IDs
+        in: body
+        name: ids
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Producer-供销商管理相关接口
+  /api/producer/getById:
+    get:
+      description: 根据供销商ID获取供销商信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 资产ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Producer-供销商管理相关接口
+  /api/producer/page:
+    post:
+      consumes:
+      - application/json
+      description: 分页查询供销商信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 筛选条件
+        in: body
+        name: req
+        schema:
+          $ref: '#/definitions/models.ProducerQueryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.PageResponseModel'
+      tags:
+      - Producer-供销商管理相关接口
+  /api/producer/update:
+    post:
+      description: 更新供销商信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加供销商
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SwustProducer'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Producer-供销商管理相关接口
+  /api/room/add:
+    post:
+      description: 增加实验室
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加实验室
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SwustRoomModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Room-实验室管理相关接口
+  /api/room/delete:
+    post:
+      consumes:
+      - application/json
+      description: 根据实验室IDs删除实验室信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除资产IDs
+        in: body
+        name: ids
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Room-实验室管理相关接口
+  /api/room/getById:
+    get:
+      description: 根据实验室ID获取实验室信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 资产ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SwustRoomModel'
+      tags:
+      - Room-实验室管理相关接口
+  /api/room/listLocation:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有实验室楼栋信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SwustRoomModel'
+      tags:
+      - Room-实验室管理相关接口
+  /api/room/page:
+    post:
+      consumes:
+      - application/json
+      description: 分页查询实验室信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除资产IDs
+        in: body
+        name: req
+        schema:
+          $ref: '#/definitions/models.AssetsQueryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.PageResponseModel'
+      tags:
+      - Room-实验室管理相关接口
+  /api/room/update:
+    post:
+      description: 更新实验室信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加资产
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SwustRoomModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - Room-实验室管理相关接口
+  /api/statistic/countassetsbytype:
+    get:
+      description: 根据资产类型统计
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.AssetTypeModel'
+      tags:
+      - Statistic-统计相关接口
+  /api/system/log/delete:
+    post:
+      consumes:
+      - application/json
+      description: 根据资产IDs删除资产信息
+      parameters:
+      - description: 日志凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除日志IDs
+        in: body
+        name: ids
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemLog-系统日志管理相关接口
+  /api/system/log/getById:
+    get:
+      description: 根据日志ID获取日志信息
+      parameters:
+      - description: 日志凭证
+        in: header
+        name: token
+        type: string
+      - description: 资产ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemLog-系统日志管理相关接口
+  /api/system/log/page:
+    post:
+      consumes:
+      - application/json
+      description: 分页查询日志信息
+      parameters:
+      - description: 日志凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除资产IDs
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SystemLogQueryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.PageResponseModel'
+      tags:
+      - SystemLog-系统日志管理相关接口
+  /api/system/menu/list:
+    get:
+      consumes:
+      - application/json
+      description: 获取菜单树
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemMenu-系统菜单管理相关接口
+  /api/system/role/getRolesByUserId/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: 分页查询权限信息
+      parameters:
+      - description: 用户ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: 权限凭证
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SwustSystemRole'
+            type: array
+      tags:
+      - SystemRole-系统权限管理相关接口
+  /api/system/role/modify/{userId}:
+    post:
+      consumes:
+      - application/json
+      description: 分配权限
+      parameters:
+      - description: 用户Id
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: 权限凭证
+        in: header
+        name: token
+        type: string
+      - description: 权限IDs
+        in: body
+        name: roles
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemRole-系统权限管理相关接口
+  /api/system/role/page:
+    post:
+      consumes:
+      - application/json
+      description: 分页查询权限信息
+      parameters:
+      - description: 权限凭证
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.PageResponseModel'
+      tags:
+      - SystemRole-系统权限管理相关接口
+  /api/system/user/add:
+    post:
+      description: 增加用户
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加用户
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SystemUserModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemUser-系统用户管理相关接口
+  /api/system/user/delete:
+    post:
+      consumes:
+      - application/json
+      description: 根据资产IDs删除资产信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除用户IDs
+        in: body
+        name: ids
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemUser-系统用户管理相关接口
+  /api/system/user/getById:
+    get:
+      description: 根据用户ID获取用户信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 资产ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemUser-系统用户管理相关接口
+  /api/system/user/getCurrentUser:
+    get:
+      consumes:
+      - application/json
+      description: 获取当前登录用户信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SystemUserModel'
+      tags:
+      - SystemUser-系统用户管理相关接口
+  /api/system/user/login:
+    post:
+      description: 登录
+      parameters:
+      - description: 账号密码
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemUser-系统用户管理相关接口
+  /api/system/user/logout:
+    post:
+      description: 退出登录
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemUser-系统用户管理相关接口
+  /api/system/user/page:
+    post:
+      consumes:
+      - application/json
+      description: 分页查询用户信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待删除资产IDs
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SystemUserQueryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.PageResponseModel'
+      tags:
+      - SystemUser-系统用户管理相关接口
+  /api/system/user/update:
+    post:
+      description: 更新用户信息
+      parameters:
+      - description: 用户凭证
+        in: header
+        name: token
+        type: string
+      - description: 待添加资产
+        in: body
+        name: body
+        schema:
+          $ref: '#/definitions/models.SystemUserModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.ResponseModel'
+      tags:
+      - SystemUser-系统用户管理相关接口
+swagger: "2.0"

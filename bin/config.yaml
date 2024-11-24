@@ -1,0 +1,23 @@
+#数据库相关配置-Mysql
+database:
+  #用户名
+  username: root
+  #密码
+  password: 123456
+  #数据库名称
+  name: business
+  #数据库服务地址
+  address: 127.0.0.1
+  #数据库监听端口
+  dataBasePort: 3306
+clusterId: swust
+#服务运行端口
+port: 9999
+#默认分页查询数量大小
+default:
+  pageSize: 20
+auth: true #是否授权
+jwt:
+  secrect: swust #签发密钥
+  expireTime: 4 #单位 小时
+  signUser: swust #签发人
