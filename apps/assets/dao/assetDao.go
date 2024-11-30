@@ -112,3 +112,14 @@ func (d *assetDao) AddOrUpdate(record any) common.SwustError {
 	}
 	return nil
 }
+
+func (d *assetDao) Deprecated(ids []string) common.SwustError {
+	err := d.Gm.Model(d.Model).
+		Where("id IN ?", ids).
+		Update("status", 3).
+		Error
+	if err != nil {
+		return common.NewDaoError(err.Error())
+	}
+	return nil
+}

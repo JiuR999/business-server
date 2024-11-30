@@ -87,6 +87,10 @@ func (a *producerService) Page(context *gin.Context, req any) (res common2.PageR
 	return res, nil
 }
 
-func (a producerService) GetProducerList() ([]string, common.SwustError) {
+func (a *producerService) GetProducerList() ([]string, common.SwustError) {
 	return dao.GetProducerDao().GetProducerList()
+}
+
+func (a *producerService) GetProducerIds() ([]string, common.SwustError) {
+	return dao.GetProducerDao().GetProducerIds()
 }

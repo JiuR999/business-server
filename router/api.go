@@ -32,6 +32,7 @@ func assetsApi(group *gin.RouterGroup) {
 	group.GET("/template", assetController.GetAssetController().Template)
 	group.POST("/import", assetController.GetAssetController().Import)
 	group.POST("/export", assetController.GetAssetController().Export)
+	group.POST("/deprecate", assetController.GetAssetController().Deprecate)
 	{
 		group.POST("/type/page", assetTypeController.GetTypeController().PageApi)
 		group.POST("/type/add", assetTypeController.GetTypeController().AddApi)
@@ -69,8 +70,11 @@ func userApi(group *gin.RouterGroup) {
 统计相关APi
 */
 func statisticApi(group *gin.RouterGroup) {
-
-	group.GET("/countassetsbytype", controller.GetStatisticController().CountAssetsByType)
+	group.GET("/countAssetsByType", controller.GetStatisticController().CountAssetsByType)
+	group.GET("/countAssetsByStatus", controller.GetStatisticController().CountAssetsByStatus)
+	group.GET("/countAssetsApplyTrend", controller.GetStatisticController().CountAssetsApplyTrend)
+	group.GET("/countAssetsDepTrend", controller.GetStatisticController().CountAssetsDepTrend)
+	group.GET("/countOrderDetail", controller.GetStatisticController().CountOrderDetail)
 }
 
 // 实验室相关API
@@ -116,4 +120,6 @@ func orderApi(group *gin.RouterGroup) {
 	group.POST("/page", orderController.GetOrderController().PageApi)
 	//group.GET("/getRolesByUserId/:userId", roleController.GetRoleController().GetRolesByUserId)
 	group.POST("/add", orderController.GetOrderController().AddApi)
+	group.GET("/getById", orderController.GetOrderController().GetApi)
+	group.POST("/approve", orderController.GetOrderController().Approve)
 }

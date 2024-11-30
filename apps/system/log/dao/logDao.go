@@ -45,6 +45,7 @@ func (d *logDao) Page(req any, record any) (int64, common.SwustError) {
 	tx.Joins("LEFT JOIN swust_system_user su ON su.id = l.user_id ").
 		Limit(request.PageSize).
 		Offset((request.PageNum - 1) * request.PageSize).
+		Order("operate_time DESC").
 		Find(record)
 	if err := tx.Error; err != nil {
 		return 0, common.NewDaoError(err.Error())

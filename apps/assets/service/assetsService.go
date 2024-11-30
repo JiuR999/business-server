@@ -249,6 +249,10 @@ func (a *assetsService) Export(ids []string) (file *excelize.File, msgs []string
 	return file, msgs
 }
 
+func (a *assetsService) Deprecate(ids []string) common.SwustError {
+	return dao.GetAssetDao().Deprecated(ids)
+}
+
 func updateByImport(excel *excelize.File, sheet string, rowNum string) common.SwustError {
 	var (
 		userId, typeId string

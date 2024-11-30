@@ -102,11 +102,7 @@ func (api *userController) UpdateApi(context *gin.Context) {
 // @Success		200		{object}	common.PageResponseModel
 // @router			/api/system/user/page [Post]
 func (api *userController) PageApi(context *gin.Context) {
-	var req common2.PageModel
-	if err := context.ShouldBindJSON(&req); err != nil {
-		common2.NewResponse(context).ErrorWithMsg(err.Error())
-	}
-	api.Page(context, getService(), &req)
+	api.Page(context, getService(), &common2.PageModel{})
 }
 
 // @title			登录

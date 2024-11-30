@@ -91,6 +91,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/assets/deprecate": {
+            "post": {
+                "description": "根据资产IDs删除资产信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Asset-资产设备管理雄相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户凭证",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "description": "待删除资产IDs",
+                        "name": "ids",
+                        "in": "body",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.ResponseModel"
+                        }
+                    }
+                }
+            }
+        },
         "/api/assets/export": {
             "post": {
                 "description": "导出资产信息",
@@ -223,7 +264,7 @@ const docTemplate = `{
                         "in": "header"
                     },
                     {
-                        "description": "待删除资产IDs",
+                        "description": "待查询资产信息",
                         "name": "req",
                         "in": "body",
                         "schema": {
@@ -510,6 +551,44 @@ const docTemplate = `{
                         "in": "body",
                         "schema": {
                             "$ref": "#/definitions/models.OrderRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.ResponseModel"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/order/approve": {
+            "post": {
+                "description": "审批采购信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Order-采购信息管理相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户凭证",
+                        "name": "token",
+                        "in": "header"
+                    },
+                    {
+                        "description": "待审批订单ID",
+                        "name": "req",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApproveReq"
                         }
                     }
                 ],
@@ -1064,7 +1143,61 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/statistic/countassetsbytype": {
+        "/api/statistic/countAssetsApplyTrend": {
+            "get": {
+                "description": "获取资产申请趋势统计",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Statistic-统计相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户凭证",
+                        "name": "token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatisticModel"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/statistic/countAssetsByStatus": {
+            "get": {
+                "description": "根据资产状态统计",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Statistic-统计相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户凭证",
+                        "name": "token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatisticModel"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/statistic/countAssetsByType": {
             "get": {
                 "description": "根据资产类型统计",
                 "produces": [
@@ -1085,7 +1218,61 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.AssetTypeModel"
+                            "$ref": "#/definitions/models.StatisticModel"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/statistic/countAssetsDepTrend": {
+            "get": {
+                "description": "获取资产报废趋势统计",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Statistic-统计相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户凭证",
+                        "name": "token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatisticModel"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/statistic/countOrderDetail": {
+            "get": {
+                "description": "获取资产报废趋势统计",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Statistic-统计相关接口"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户凭证",
+                        "name": "token",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.StatisticModel"
                         }
                     }
                 }
@@ -1659,15 +1846,27 @@ const docTemplate = `{
                 }
             }
         },
-        "models.AssetTypeModel": {
+        "models.ApproveReq": {
             "type": "object",
             "properties": {
-                "quantity": {
-                    "description": "数量",
+                "approveTime": {
+                    "description": "审批时间",
+                    "type": "string"
+                },
+                "orderId": {
+                    "description": "采购单ID",
+                    "type": "string"
+                },
+                "reason": {
+                    "description": "驳回理由",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "审核意见 -1 拒绝 1 同意",
                     "type": "integer"
                 },
-                "typeName": {
-                    "description": "Name     *string ` + "`" + `gorm:\"column:name;type:varchar(25)\" json:\"name\"` + "`" + ` // 房间名称",
+                "userId": {
+                    "description": "审批人ID",
                     "type": "string"
                 }
             }
@@ -1903,6 +2102,10 @@ const docTemplate = `{
                     "description": "UserID     *string    ` + "`" + `gorm:\"column:user_id;type:varchar(19)\" json:\"userID\"` + "`" + `                       // 责任人",
                     "type": "string"
                 },
+                "comment": {
+                    "description": "备注",
+                    "type": "string"
+                },
                 "name": {
                     "type": "string"
                 },
@@ -2004,6 +2207,19 @@ const docTemplate = `{
                 "phoneNumber": {
                     "description": "手机号",
                     "type": "string"
+                }
+            }
+        },
+        "models.StatisticModel": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "名称",
+                    "type": "string"
+                },
+                "value": {
+                    "description": "数量",
+                    "type": "integer"
                 }
             }
         },

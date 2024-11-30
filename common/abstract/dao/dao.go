@@ -25,9 +25,7 @@ func (d *Dao) Add(req any) (any, common.SwustError) {
 }
 
 func (d *Dao) GetById(id string, record any) common.SwustError {
-	tx := d.Gm.Where("id = ?", id).
-		Select("id,name,account,avatar,phone_number").
-		Take(record)
+	tx := d.Gm.Model(record).Where("id = ?", id).Take(record)
 	if err := tx.Error; err != nil {
 		return common.NewDaoError(err.Error())
 	}

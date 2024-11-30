@@ -31,6 +31,7 @@ func Init() {
 	orderApi(api.Group("/order"))
 	//Websocket
 	r.GET("/ws/common", Websocket.HandFunc)
+	r.GET("/ws/notice", Websocket.HandNoticeFunc)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	err := r.Run(":" + env.GetConfig().Port)
 	if err != nil {

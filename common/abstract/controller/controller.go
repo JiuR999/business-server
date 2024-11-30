@@ -64,6 +64,10 @@ func (c *Controller) Update(context *gin.Context, service abstract.Service, req 
 
 func (c *Controller) Page(context *gin.Context, service abstract.Service, req any) {
 	response := common.NewResponse(context)
+	if e := context.ShouldBindJSON(req); e != nil {
+		response.ErrorWithMsg(e.Error())
+		return
+	}
 	res, err := service.Page(context, req)
 	if err != nil {
 		response.ErrorWithMsg(err.GetMsg())

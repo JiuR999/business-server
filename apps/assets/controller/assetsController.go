@@ -72,6 +72,38 @@ func (api *assetsController) DeleteApi(context *gin.Context) {
 	api.Delete(context, getService())
 }
 
+// @title			根据资产IDs删除资产信息
+// @version		1.0
+// @Tags			Asset-资产设备管理雄相关接口
+// @description	根据资产IDs删除资产信息
+// @accept			json
+// @Produce		json
+// @Param			token	header		string		false	"用户凭证"
+// @Param			ids		body		[]string	false	"待删除资产IDs"
+// @Success		200		{object}	common.ResponseModel
+// @router			/api/assets/deprecate [Post]
+func (api *assetsController) Deprecate(context *gin.Context) {
+	var (
+		ids      []string
+		response = common.NewResponse(context)
+	)
+	if err := context.ShouldBindJSON(&ids); err != nil {
+		response.ErrorWithMsg(err.Error())
+		return
+	}
+	if len(ids) <= 0 {
+		response.ErrorWithMsg("请选择需要报废的设备！")
+		return
+	}
+	err := service.GetAssetsService().Deprecate(ids)
+	if err != nil {
+		response.ErrorWithMsg(err.GetMsg())
+		return
+	}
+	logWriter.WriteLog(context, common2.LOG_EVENT_UPDATE, fmt.Sprintf("报废设备:%s", ids))
+	response.Success()
+}
+
 // @title			更新资产信息
 // @version		1.0
 // @Tags			Asset-资产设备管理雄相关接口
@@ -92,7 +124,7 @@ func (api *assetsController) UpdateApi(context *gin.Context) {
 // @accept			json
 // @Produce		json
 // @Param			token	header		string						false	"用户凭证"
-// @Param			req		body		models.AssetsQueryRequest	false	"待删除资产IDs"
+// @Param			req		body		models.AssetsQueryRequest	false	"待查询资产信息"
 // @Success		200		{object}	models.AssetsVO
 // @router			/api/assets/page [Post]
 func (api *assetsController) PageApi(context *gin.Context) {

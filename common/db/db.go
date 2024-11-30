@@ -23,7 +23,6 @@ func init() {
 	address := env.GetConfig().Address
 	port := env.GetConfig().DataBasePort
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", userName, password, address, port, database)
-	fmt.Println(dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		// 设置日志级别为Info，以便打印出所有SQL语句
 		Logger: logger.New(

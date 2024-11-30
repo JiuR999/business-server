@@ -86,12 +86,8 @@ func (a *logService) Del(context *gin.Context, ids []string) (int64, common.Swus
 }
 
 func (a *logService) Page(context *gin.Context, req any) (res common2.PageResponseModel, err common.SwustError) {
-	if err := context.ShouldBindJSON(req); err != nil {
-		common2.NewResponse(context).ErrorWithMsg(err.Error())
-	}
 	request := req.(*models.SystemLogQueryRequest)
 	request.IfAbsent()
-
 	id, swustError := dao2.GetUserDao().GetIdByNameAndPhone(models2.SystemUserQueryRequest{Name: request.OperateUser})
 	if swustError != nil {
 		return res, common.NewServiceError("该用户不存在")

@@ -18,6 +18,9 @@ const (
 	STATUS_REFUSE   = -1
 	STATUS_ORDING   = 1
 	STATUS_COMPLETE = 2
+
+	APPROVE_REFUSE = -1
+	APPROVE_AGREE  = 1
 )
 
 // 日志相关常量
@@ -39,9 +42,13 @@ const (
 )
 
 const (
-	COMMON_MSG   = "event_common"
-	EVENT_IMPORT = "event_import"
-	EVENT_LOG    = "event_log"
+	COMMON_MSG        = "event_common"
+	EVENT_NOTICE      = "event_notice"
+	EVENT_IMPORT      = "event_import"
+	EVENT_ORDER       = "event_order"
+	EVENT_FINISH_SAVE = "event_finish_save"
+	EVENT_LOG         = "event_log"
+	EVENT_ASYNC       = "event_async"
 )
 
 const (

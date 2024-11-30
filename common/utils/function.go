@@ -21,6 +21,10 @@ func GenerateId() string {
 	return node.Generate().String()
 }
 
+func GenerateCode() string {
+	return "swust" + node.Generate().String()[11:]
+}
+
 func IsBlank(str *string) bool {
 	if str == nil || strings.TrimSpace(*str) == "" {
 		return true

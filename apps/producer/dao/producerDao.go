@@ -85,3 +85,11 @@ func (d *producerDao) GetIdByNameAndAddr(name string, addr string) (id string, e
 	}
 	return id, nil
 }
+
+func (d *producerDao) GetProducerIds() (res []string, err common.SwustError) {
+	e := d.Gm.Model(d.Model).Select("id").Find(&res).Error
+	if e != nil {
+		return res, common.NewDaoError(e.Error())
+	}
+	return res, nil
+}
